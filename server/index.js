@@ -9,6 +9,38 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN || '*';
 const FORM_EMAIL = process.env.FORMSUBMIT_EMAIL || 'karanihmartoh@gmail.com';
 const FORM_ENDPOINT = `https://formsubmit.co/${FORM_EMAIL}`;
 
+const form=document.getElementById('contact-form');
+const feedbackdiv=document.getElementById('form-feedback');
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault(); //stop the page from refreshing
+  const formData = new FormData(form);
+
+  // convert formData to URL-encoded format since proxy looks for it
+  const data =new URLSearchParams(formData);
+
+  fetch(form.action, {
+    method: 'POST',
+    body: data,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      feedbackdiv.textContent = 'Message successfully sent-thanks';
+      feedbackdiv.classList.remove('hidden'); //show the success message
+      feedbackdiv.classList.remove('hidden'); //show the success message
+    }else{
+      alert('something went wrong.please retry.');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  }
+});
+  });
+  
 const defaultHeaders = {
   'Access-Control-Allow-Origin': CORS_ORIGIN,
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
