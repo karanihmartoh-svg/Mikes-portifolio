@@ -33,12 +33,11 @@ form.addEventListener('submit', function (e) {
       feedbackdiv.classList.remove('hidden'); //show the success message
     }else{
       alert('something went wrong.please retry.');
-    }
-  })
+  }
+})
   .catch(error => {
     console.error('Error:', error);
-  }
-});
+    });
   });
   
 const defaultHeaders = {
