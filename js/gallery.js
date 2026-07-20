@@ -15,6 +15,16 @@
     }
   }
 
+  const player=document.getElementById('player');
+  const playbtn=document.getElementById('play-btn');
+  playbtn.addEventListener('click', () => {
+    if(player.paused){
+      player.play();
+    }else{
+      player.pause();
+    }
+  });
+  
   function closeLightbox(){
     lightbox && lightbox.classList.add('hidden');
   }
