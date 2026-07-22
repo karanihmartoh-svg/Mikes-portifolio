@@ -325,8 +325,8 @@
      const playBtn =document.getElementById('playBtn');
 
     PlayBtn.addEventListener('click', () => {
-        if (audio.pause) {
-            audioplay();
+        if (audio.paused) {
+            audio.play();
             // Optional: change the button icon to apause icon here
         } else {
             audio.pause();
