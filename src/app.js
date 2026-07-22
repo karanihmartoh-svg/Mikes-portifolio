@@ -19,7 +19,7 @@ document.querySelectorAll('.rate-card, .rate-panel, .gallery-img').forEach((el) 
 });
 
 // Simple hero audio player (single track)
-const tracks = [ { title: 'Mike Audio', duration: '3:24', src: 'assets/mike-audio.mp3' } ];
+const tracks = [ { title: 'Mike Audio', duration: '3:24', src: 'mike-audio.mp3' } ];
 let trackIndex = 0;
 let isPlaying = false;
 
@@ -35,6 +35,38 @@ const heroAudio = new Audio(tracks[0].src);
 heroAudio.preload = 'metadata';
 
 if (playBtn) {
+  if (playBtn) {
+    // 1. Add the click listener right at the top here:
+    playBtn.addEventListener('click', togglePlay);
+
+    // 2. Your existing inner functions stay below it:
+    function renderTrack(index) {
+        const t = tracks[index];
+        trackTitleEl.textContent = t.title;
+        trackDurationEl.textContent = t.duration;
+        progressFill.style.width = '0%';
+        heroAudio.src = t.src;
+    }
+
+    function updateProgress() {
+        if (!heroAudio.duration || Number.isNaN(heroAudio.duration)) return;
+        progressFill.style.width = `${(heroAudio.currentTime / heroAudio.duration) * 100}%`;
+    }
+
+    function togglePlay() {
+        isPlaying = !isPlaying;
+
+        if (isPlaying) {
+            heroAudio.play();
+            playIcon.className = 'fas fa-pause';
+            playIcon.style.marginLeft = '0';
+        } else {
+            heroAudio.pause();
+            playIcon.className = 'fas fa-play';
+            playIcon.style.marginLeft = '2px';
+        }
+    }
+}
   function renderTrack(index) {
     const t = tracks[index];
     trackTitleEl.textContent = t.title;
@@ -50,12 +82,15 @@ if (playBtn) {
 
   function togglePlay() {
     isPlaying = !isPlaying;
-    playIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
-    playIcon.style.marginLeft = isPlaying ? '0' : '2px';
+
     if (isPlaying) {
-      heroAudio.play().catch(() => { isPlaying = false; playIcon.className = 'fas fa-play'; playIcon.style.marginLeft = '2px'; });
+        heroAudio.play();
+        playIcon.className = 'fas fa-pause';
+        playIcon.style.marginLeft = '0' ;
     } else {
       heroAudio.pause();
+      playIcon.className = 'fas fa-play';
+      playIcon.style.marginLeft = '2px';
     }
   }
 
